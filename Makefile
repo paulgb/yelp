@@ -8,11 +8,11 @@ training_set_csv : training_set_json convert.py
 	mkdir -p training_set_csv
 	mv training_set_json/*.csv training_set_csv/
 
-stemmed/training_set_reviews.dat : stemmed stem.py training_set_csv
+stemmed/training_set_reviews.dat : stem.py training_set_csv
 	mkdir -p stemmed
 	python stem.py training_set_csv/yelp_training_set_review.csv stemmed/training_set_reviews.dat
 
-tfidf/vocab.dat : tfidf training_set_csv tfidf_vocab.py stemmed/training_set_reviews.dat
+tfidf/vocab.dat : training_set_csv tfidf_vocab.py stemmed/training_set_reviews.dat
 	mkdir -p tfidf
 	python tfidf_vocab.py stemmed/training_set_reviews.dat tfidf/vocab.dat
 
