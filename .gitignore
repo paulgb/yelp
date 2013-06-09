@@ -4,3 +4,5 @@ stemmed
 tfidf
 training_set_csv
 training_set_json
+cv
+target

@@ -4,7 +4,7 @@ import pickle
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-MAX_FEATURES = 1000
+MAX_FEATURES = 100
 
 def tfidf(vec_file, infile, outfile):
     vectorizer = pickle.load(file(vec_file))
