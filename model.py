@@ -1,0 +1,15 @@
+
+from sklearn.linear_model import SGDRegressor
+
+from mem import cache
+
+@cache
+def train_model(features, targets):
+    model = SGDRegressor()
+    model.fit(features, targets)
+    return model
+
+@cache
+def predict(features, model):
+    return model.predict(features)
+    
