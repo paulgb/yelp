@@ -13,9 +13,8 @@ def split_data(splitfile, infile, outfile):
         else:
             training_set = dataset[training_split]
             test_set = dataset[test_split]
-        print 'ta'
-        training_set = training_set.toarray()
-        print 'dta'
+        #training_set = training_set.toarray()
+        #test_set = test_set.toarray()
         pickle.dump(training_set, file('train/%s%s.dat' % (outfile, i), 'w'))
         pickle.dump(test_set, file('test/%s%s.dat' % (outfile, i), 'w'))
 

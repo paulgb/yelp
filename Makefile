@@ -49,7 +49,8 @@ cv/tfidf : cv/splits.dat tfidf/training_set.dat split_data.py
 	touch cv/tfidf
 
 # train models
-cv/models : cv/tfidf cv/target
+cv/models : cv/tfidf cv/target train_model.py
 	mkdir -p cv/models
 	cd cv; python ../train_model.py train/tfidf train/target models
+	touch cv/models
 

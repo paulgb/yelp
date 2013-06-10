@@ -4,7 +4,7 @@ import pickle
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-MAX_FEATURES = 1000
+MAX_FEATURES = 10
 
 def tfidf_vocab(infile, outfile):
     stemmed_text = pickle.load(file(infile))
