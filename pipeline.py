@@ -1,6 +1,6 @@
 
 from mem import cache
-from numpy import log
+from numpy import log, exp
 
 from text_features import stem, vectorizer, tfidf
 
@@ -16,4 +16,8 @@ def prepare_features(table, max_features, vect=None):
 def prepare_targets(table):
     votes = table.votes_useful
     return log(votes + 1)
+
+@cache
+def transform_predictions(predictions):
+    return exp(predictions) - 1
 
