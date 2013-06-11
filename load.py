@@ -2,6 +2,7 @@
 from zipfile import ZipFile
 import json
 import pandas as pd
+import random
 
 from mem import cache
 
@@ -19,10 +20,15 @@ def json_to_flat_dict(x):
     return ob
 
 @cache
-def load_reviews(data_zip_file, training_set_file):
+def load_reviews(data_zip_file, training_set_file, sample_size=None):
     zf = ZipFile(data_zip_file)
     reviews = zf.open(training_set_file)
 
     df = pd.DataFrame([json_to_flat_dict(line) for line in reviews])
+
+    if sample_size:
+        sample = random.sample(xrange(0, df.shape[0]), sample_size)
+        df = df.irow(sample)
+
     return df
 

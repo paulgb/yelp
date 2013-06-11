@@ -13,9 +13,11 @@ def prepare_features(table, max_features, vect=None):
     return vect, features
 
 @cache
-def prepare_targets(table):
-    votes = table.votes_useful
-    return log(votes + 1)
+def prepare_targets(table, scale=None):
+    votes = log(table.votes_useful + 1)
+    if scale is None:
+        scale = 1 / max(votes)
+    return scale, votes * scale
 
 @cache
 def transform_predictions(predictions):
