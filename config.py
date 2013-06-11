@@ -7,7 +7,7 @@ TRAINING_SET_FILE = 'yelp_training_set/yelp_training_set_review.json'
 CV_SPLITS = 3
 
 # Featurization configuration
-MAX_FEATURES = 300
+MAX_FEATURES = 1000
 
 # Model configuration
 HIDDEN_SIZE = 10

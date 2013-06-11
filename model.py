@@ -1,5 +1,6 @@
 
 from sklearn.linear_model import SGDRegressor
+from sklearn.dummy import DummyRegressor
 
 from mem import cache
 

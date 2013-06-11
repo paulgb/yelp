@@ -7,6 +7,23 @@ from pipeline import prepare_features, prepare_targets, transform_predictions
 from cross_val import split
 from model import train_model, predict
 
+from mem import cache
+
+@cache
+def train_and_test(train, test):
+    vect, features = prepare_features(train, config.MAX_FEATURES)
+    targets = prepare_targets(train)
+
+    model = train_model(features, targets)
+
+    vect, test_features = prepare_features(test, config.MAX_FEATURES, vect)
+    predictions = predict(test_features, model)
+
+    #predictions = transform_predictions(results)
+
+
+    return mean_squared_error(predictions, prepare_targets(test))
+
 def cross_val_model():
     data = load_reviews(config.DATA_ZIP_FILE, config.TRAINING_SET_FILE)
 
@@ -14,17 +31,7 @@ def cross_val_model():
     errors = list()
 
     for (train, test) in splits:
-        vect, features = prepare_features(train, config.MAX_FEATURES)
-        targets = prepare_targets(train)
-
-        model = train_model(features, targets)
-
-        vect, test_features = prepare_features(test, config.MAX_FEATURES, vect)
-        results = predict(test_features, model)
-
-        predictions = transform_predictions(results)
-
-        errors.append(float(mean_squared_error(predictions, test.votes_useful)))
+        errors.append(train_and_test(train, test))
 
     return errors
 
