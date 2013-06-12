@@ -9,15 +9,16 @@ from mem import cache
 cli.enable_default_logging()
 
 @cache
-def train_model(features, targets, test_features, test_targets, hidden_layers):
+def train_model(features, targets, test_features, test_targets, hidden_layers, batch_size):
     n_features = features.shape[1]
 
     layers = (n_features,) + hidden_layers + (1,)
-    print 'layers', layers
-    ex = nn.Experiment(nn.Regressor, layers=layers)
+
+    ex = nn.Experiment(nn.Regressor, layers=layers, batch_size=batch_size)
 
     features = features.toarray()
     targets = matrix(targets).T
+
     test_features = test_features.toarray()
     test_targets = matrix(test_targets).T
 

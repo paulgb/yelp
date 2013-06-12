@@ -12,8 +12,9 @@ CV_SPLITS = 3
 # Featurization configuration
 MAX_FEATURES = 1000
 
+# Training
+BATCH_SIZE = 400
+
 # Model configuration
-HIDDEN_LAYERS = (300,100)
-
-
+HIDDEN_LAYERS = (500,)
 
