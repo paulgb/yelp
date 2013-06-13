@@ -11,7 +11,6 @@ from model import train_model, predict
 from numpy import array
 from mem import cache
 
-#@cache
 def train_and_test(train, test):
     vect, features = prepare_features(train, config.MAX_FEATURES)
     scale, targets = prepare_targets(train)
@@ -22,7 +21,8 @@ def train_and_test(train, test):
 
     model = train_model(features, targets,
             test_features, test_targets,
-            config.HIDDEN_LAYERS, config.BATCH_SIZE)
+            config.HIDDEN_LAYERS, config.BATCH_SIZE,
+            config.ACTIVATION_FUNCTION, config.OPTIMIZE)
 
     predictions = predict(test_features, model)
     print predictions, test_targets

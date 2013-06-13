@@ -15,6 +15,7 @@ def prepare_features(table, max_features, vect=None):
 @cache
 def prepare_targets(table, scale=None):
     votes = log(table.votes_useful + 1)
+    print 'min', min(votes)
     if scale is None:
         scale = 1
         #scale = 1 / max(votes)
