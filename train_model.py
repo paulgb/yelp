@@ -12,11 +12,11 @@ from numpy import array
 from mem import cache
 
 def train_and_test(train, test):
-    vect, features = prepare_features(train, config.MAX_FEATURES)
+    vect, pca, features = prepare_features(train, config.MAX_FEATURES)
     scale, targets = prepare_targets(train)
     print 'scale:', scale
 
-    vect, test_features = prepare_features(test, config.MAX_FEATURES, vect)
+    vect, pca, test_features = prepare_features(test, config.MAX_FEATURES, vect, pca)
     scale, test_targets = prepare_targets(test, scale)
 
     model = train_model(features, targets,

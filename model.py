@@ -23,10 +23,8 @@ def train_model(features, targets,
             activation=activation,
             optimize=optimize)
 
-    features = features.toarray()
     targets = matrix(targets).T
 
-    test_features = test_features.toarray()
     test_targets = matrix(test_targets).T
 
     ex.run((features, targets), (test_features, test_targets))
@@ -35,8 +33,6 @@ def train_model(features, targets,
 
 @cache
 def predict(features, model):
-    features = features.toarray()
-
     predictions = model(features)
     return predictions[:,0]
     
