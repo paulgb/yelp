@@ -3,31 +3,40 @@ from mem import cache
 from numpy import log, exp
 from sklearn.decomposition import PCA
 
-from text_features import stem, vectorizer, tfidf
+from sklearn.feature_extraction.text import TfidfVectorizer
+from text_features import stem
 
-@cache
-def prepare_features(table, max_features, vect=None, pca=None):
-    stemmed_text = stem(table.text)
-    if vect is None:
-        vect = vectorizer(stemmed_text, max_features)
-    features = tfidf(stemmed_text, vect)
-    if hasattr(features, 'toarray'):
+class Pipeline:
+    def __init__(self, max_features):
+        self.max_features = max_features
+
+
+    def fit(self, features):
+        stemmed_text = stem(features.text)
+
+        self.tfidf = TfidfVectorizer(stop_words='english', max_features=self.max_features)
+        features = self.tfidf.fit_transform(stemmed_text)
+
         features = features.toarray()
-    if pca is None:
-        pca = PCA(150).fit(features)
-    features = pca.transform(features)
-    return vect, pca, features
 
-@cache
-def prepare_targets(table, scale=None):
-    votes = log(table.votes_useful + 1)
-    print 'min', min(votes)
-    if scale is None:
-        scale = 1
-        #scale = 1 / max(votes)
-    return scale, votes * scale
+        self.pca = PCA(150).fit(features)
+        
 
-@cache
-def transform_predictions(predictions):
-    return exp(predictions) - 1
+    def transform(self, features):
+        stemmed_text = stem(features.text)
+
+        features = self.tfidf.transform(stemmed_text)
+        features = features.toarray()
+
+        return self.pca.transform(features)
+
+
+    def transform_targets(self, table):
+        votes = log(table.votes_useful + 1)
+        #print 'min', min(votes)
+        return votes
+
+
+    def transform_predictions(self, predictions):
+        return exp(predictions) - 1
 

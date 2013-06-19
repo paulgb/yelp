@@ -1,10 +1,8 @@
 
-from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.stem.porter import PorterStemmer
 import re
 
 from mem import cache
-from config import MAX_FEATURES
 
 class Stemmer(object):
     def __init__(self):

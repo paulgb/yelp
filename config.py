@@ -10,7 +10,7 @@ SAMPLE_SIZE = 10000
 CV_SPLITS = 3
 
 # Featurization configuration
-MAX_FEATURES = 1000
+TEXT_FEATURES = 1000
 PCA_FEATURES = 150
 
 # Training

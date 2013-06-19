@@ -8,31 +8,31 @@ from mem import cache
 
 cli.enable_default_logging()
 
-@cache
-def train_model(features, targets,
-        test_features, test_targets,
-        hidden_layers, batch_size,
-        activation, optimize):
-    n_features = features.shape[1]
+class NeuralNetModel:
+    def __init__(self, hidden_layers, batch_size, activation, optimize):
+        self.hidden_layers = hidden_layers
+        self.batch_size = batch_size
+        self.activation = activation
+        self.optimize = optimize
 
-    layers = (n_features,) + hidden_layers + (1,)
+    def train(self, features, targets, test_features, test_targets):
+        n_features = features.shape[1]
 
-    ex = nn.Experiment(nn.Regressor,
-            layers=layers,
-            batch_size=batch_size,
-            activation=activation,
-            optimize=optimize)
+        layers = (n_features,) + self.hidden_layers + (1,)
 
-    targets = matrix(targets).T
+        ex = nn.Experiment(nn.Regressor,
+                layers=layers,
+                batch_size=self.batch_size,
+                activation=self.activation,
+                optimize=self.optimize)
 
-    test_targets = matrix(test_targets).T
+        targets = matrix(targets).T
+        test_targets = matrix(test_targets).T
 
-    ex.run((features, targets), (test_features, test_targets))
+        ex.run((features, targets), (test_features, test_targets))
+        self.network = ex.network
 
-    return ex.network
+    def predict(self, features):
+        predictions = self.network(features)
+        return predictions[:,0]
 
-@cache
-def predict(features, model):
-    predictions = model(features)
-    return predictions[:,0]
-    

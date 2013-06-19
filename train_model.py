@@ -4,34 +4,35 @@ import config
 
 from sklearn.metrics import mean_squared_error
 from load import load_reviews
-from pipeline import prepare_features, prepare_targets, transform_predictions
+from pipeline import Pipeline
 from cross_val import split
-from model import train_model, predict
+from model import NeuralNetModel
 
 from numpy import array
 from mem import cache
 
 def train_and_test(train, test):
-    vect, pca, features = prepare_features(train, config.MAX_FEATURES)
-    scale, targets = prepare_targets(train)
-    print 'scale:', scale
+    pipeline = Pipeline(config.TEXT_FEATURES)
 
-    vect, pca, test_features = prepare_features(test, config.MAX_FEATURES, vect, pca)
-    scale, test_targets = prepare_targets(test, scale)
+    pipeline.fit(train)
+    features = pipeline.transform(train)
+    targets = pipeline.transform_targets(train)
 
-    model = train_model(features, targets,
-            test_features, test_targets,
-            config.HIDDEN_LAYERS, config.BATCH_SIZE,
-            config.ACTIVATION_FUNCTION, config.OPTIMIZE)
+    test_features = pipeline.transform(test)
+    test_targets = pipeline.transform_targets(test)
 
-    predictions = predict(test_features, model)
+    model = NeuralNetModel(config.HIDDEN_LAYERS, config.BATCH_SIZE, config.ACTIVATION_FUNCTION, config.OPTIMIZE)
+    model.train(features, targets, test_features, test_targets)
+
+    predictions = model.predict(test_features)
     print predictions, test_targets
     
     print 'err1: ', mean_squared_error(predictions, test_targets)
-    mse = mean_squared_error(predictions / scale, test_targets / scale)
+    mse = mean_squared_error(predictions, test_targets)
     print 'error: ', mse
 
     return mse
+
 
 def cross_val_model():
     data = load_reviews(config.DATA_ZIP_FILE, config.TRAINING_SET_FILE, config.SAMPLE_SIZE)
