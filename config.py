@@ -19,6 +19,6 @@ BATCH_SIZE = 400
 
 # Model configuration
 HIDDEN_LAYERS = (70,)
-ACTIVATION_FUNCTION = 'tanh'
+ACTIVATION_FUNCTION = 'norm:std+tanh'
 OPTIMIZE = 'sgd'
 

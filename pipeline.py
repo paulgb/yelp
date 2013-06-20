@@ -24,8 +24,8 @@ class Pipeline:
         self.pca = PCA(150).fit(text_features)
 
         self.avg_user = CategoryAverage()
-        self.avg_user = self.avg_user.fit(table.user_id, table.votes_useful)
-        #self.avg_user = self.avg_user.fit(table.user_id, log(table.votes_useful + 1))
+        #self.avg_user = self.avg_user.fit(table.user_id, table.votes_useful)
+        self.avg_user = self.avg_user.fit(table.user_id, log(table.votes_useful + 1))
         self.avg_biz = CategoryAverage()
         self.avg_biz = self.avg_user.fit(table.business_id, log(table.votes_useful + 1))
 

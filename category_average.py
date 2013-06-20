@@ -21,7 +21,7 @@ class CategoryAverage:
     
     def transform(self, x):
         x = array(x)
-        l = zeros((len(x), 2))
+        l = zeros((len(x), 1))
         for i, h in enumerate(x):
             t_c, t_s = self.tot
             overall_avg = float(t_s) / t_c
@@ -32,8 +32,6 @@ class CategoryAverage:
                 avg = 0
                 c = 0
             slce = 1. / (c+1)
-            #l[i, 0] = (slce * overall_avg) + ((1 - slce) * avg)
-            l[i, 0] = avg
-            l[i, 1] = c
+            l[i, 0] = (slce * overall_avg) + ((1 - slce) * avg)
         return l
 
