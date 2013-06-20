@@ -1,5 +1,4 @@
 
-from mem import cache
 from numpy import log, exp
 from sklearn.decomposition import PCA
 
@@ -10,9 +9,8 @@ class Pipeline:
     def __init__(self, max_features):
         self.max_features = max_features
 
-
-    def fit(self, features):
-        stemmed_text = stem(features.text)
+    def fit(self, table):
+        stemmed_text = stem(table.text)
 
         self.tfidf = TfidfVectorizer(stop_words='english', max_features=self.max_features)
         features = self.tfidf.fit_transform(stemmed_text)
@@ -20,6 +18,12 @@ class Pipeline:
         features = features.toarray()
 
         self.pca = PCA(150).fit(features)
+
+        # scale for votes
+        votes = log(table.votes_useful + 1)
+        self.scale = 1 / max(votes)
+
+        return self
         
 
     def transform(self, features):
@@ -33,8 +37,7 @@ class Pipeline:
 
     def transform_targets(self, table):
         votes = log(table.votes_useful + 1)
-        #print 'min', min(votes)
-        return votes
+        return votes * self.scale
 
 
     def transform_predictions(self, predictions):

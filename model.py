@@ -4,8 +4,6 @@ import lmj.cli as cli
 
 from numpy import matrix
 
-from mem import cache
-
 cli.enable_default_logging()
 
 class NeuralNetModel:
@@ -14,6 +12,7 @@ class NeuralNetModel:
         self.batch_size = batch_size
         self.activation = activation
         self.optimize = optimize
+        self.network = None
 
     def train(self, features, targets, test_features, test_targets):
         n_features = features.shape[1]
@@ -31,6 +30,8 @@ class NeuralNetModel:
 
         ex.run((features, targets), (test_features, test_targets))
         self.network = ex.network
+
+        return self
 
     def predict(self, features):
         predictions = self.network(features)

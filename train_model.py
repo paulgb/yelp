@@ -14,21 +14,22 @@ from mem import cache
 def train_and_test(train, test):
     pipeline = Pipeline(config.TEXT_FEATURES)
 
-    pipeline.fit(train)
-    features = pipeline.transform(train)
-    targets = pipeline.transform_targets(train)
+    pipeline = cache(pipeline.fit)(train)
+    features = cache(pipeline.transform)(train)
+    targets = cache(pipeline.transform_targets)(train)
 
-    test_features = pipeline.transform(test)
-    test_targets = pipeline.transform_targets(test)
+    test_features = cache(pipeline.transform)(test)
+    test_targets = cache(pipeline.transform_targets)(test)
 
     model = NeuralNetModel(config.HIDDEN_LAYERS, config.BATCH_SIZE, config.ACTIVATION_FUNCTION, config.OPTIMIZE)
-    model.train(features, targets, test_features, test_targets)
+    model = cache(model.train)(features, targets, test_features, test_targets)
 
-    predictions = model.predict(test_features)
+    predictions = cache(model.predict)(test_features)
     print predictions, test_targets
     
+    print pipeline.scale
     print 'err1: ', mean_squared_error(predictions, test_targets)
-    mse = mean_squared_error(predictions, test_targets)
+    mse = mean_squared_error(predictions / pipeline.scale, test_targets / pipeline.scale)
     print 'error: ', mse
 
     return mse

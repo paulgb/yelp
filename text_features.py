@@ -20,15 +20,3 @@ def stem(text):
     stemmer = Stemmer()
     return text.map(stemmer.stem_sentence)
 
-
-@cache
-def vectorizer(text, max_features):
-    vect = TfidfVectorizer(stop_words='english', max_features=max_features)
-    vect.fit(text)
-    return vect
-
-
-@cache
-def tfidf(text, vect):
-    return vect.transform(text)
-    
