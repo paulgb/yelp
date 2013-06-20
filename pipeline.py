@@ -4,6 +4,9 @@ from sklearn.decomposition import PCA
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from text_features import stem
+from numpy import hstack
+
+from category_average import CategoryAverage
 
 class Pipeline:
     def __init__(self, max_features):
@@ -13,11 +16,13 @@ class Pipeline:
         stemmed_text = stem(table.text)
 
         self.tfidf = TfidfVectorizer(stop_words='english', max_features=self.max_features)
-        features = self.tfidf.fit_transform(stemmed_text)
+        text_features = self.tfidf.fit_transform(stemmed_text)
+        text_features = text_features.toarray()
 
-        features = features.toarray()
+        self.pca = PCA(150).fit(text_features)
 
-        self.pca = PCA(150).fit(features)
+        self.avg_user = CategoryAverage()
+        self.avg_user = self.avg_user.fit(table.user_id, table.votes_useful)
 
         # scale for votes
         votes = log(table.votes_useful + 1)
@@ -29,10 +34,14 @@ class Pipeline:
     def transform(self, features):
         stemmed_text = stem(features.text)
 
-        features = self.tfidf.transform(stemmed_text)
-        features = features.toarray()
+        text_features = self.tfidf.transform(stemmed_text)
+        text_features = text_features.toarray()
 
-        return self.pca.transform(features)
+        text_features_pca = self.pca.transform(text_features)
+
+        avg_user = self.avg_user.transform(features.user_id)
+
+        return hstack((text_features_pca, avg_user))
 
 
     def transform_targets(self, table):
