@@ -14,6 +14,7 @@ class Pipeline:
         self.use_scale = use_scale
 
     def fit(self, table):
+
         stemmed_text = stem(table.text)
 
         self.tfidf = TfidfVectorizer(stop_words='english', max_features=self.max_features)
