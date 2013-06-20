@@ -25,8 +25,6 @@ class Pipeline:
 
         self.avg_user = CategoryAverage()
         self.avg_user = self.avg_user.fit(table.user_id, table.votes_useful)
-        self.avg_biz = CategoryAverage()
-        self.avg_biz = self.avg_user.fit(table.business_id, table.votes_useful)
 
         # scale for votes
         votes = log(table.votes_useful + 1)
@@ -47,9 +45,8 @@ class Pipeline:
         text_features_pca = self.pca.transform(text_features)
 
         avg_user = self.avg_user.transform(features.user_id)
-        avg_biz = self.avg_biz.transform(features.business_id)
 
-        return hstack((text_features_pca, avg_user, avg_biz))
+        return hstack((text_features_pca, avg_user))
 
 
     def transform_targets(self, table):
