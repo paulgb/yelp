@@ -12,7 +12,7 @@ from numpy import array
 from mem import cache
 
 def train_and_test(train, test):
-    pipeline = Pipeline(config.TEXT_FEATURES)
+    pipeline = Pipeline(config.TEXT_FEATURES, config.USE_SCALE)
 
     pipeline = cache(pipeline.fit)(train)
     features = cache(pipeline.transform)(train)

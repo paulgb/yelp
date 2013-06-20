@@ -9,8 +9,9 @@ from numpy import hstack
 from category_average import CategoryAverage
 
 class Pipeline:
-    def __init__(self, max_features):
+    def __init__(self, max_features, use_scale):
         self.max_features = max_features
+        self.use_scale = use_scale
 
     def fit(self, table):
         stemmed_text = stem(table.text)
@@ -23,10 +24,16 @@ class Pipeline:
 
         self.avg_user = CategoryAverage()
         self.avg_user = self.avg_user.fit(table.user_id, table.votes_useful)
+        #self.avg_user = self.avg_user.fit(table.user_id, log(table.votes_useful + 1))
+        self.avg_biz = CategoryAverage()
+        self.avg_biz = self.avg_user.fit(table.business_id, log(table.votes_useful + 1))
 
         # scale for votes
         votes = log(table.votes_useful + 1)
-        self.scale = 1 / max(votes)
+        if self.use_scale:
+            self.scale = 1 / max(votes)
+        else:
+            self.scale = 1
 
         return self
         

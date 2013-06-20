@@ -12,6 +12,7 @@ CV_SPLITS = 3
 # Featurization configuration
 TEXT_FEATURES = 1000
 PCA_FEATURES = 150
+USE_SCALE = True
 
 # Training
 BATCH_SIZE = 400
