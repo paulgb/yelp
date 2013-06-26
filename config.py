@@ -21,5 +21,5 @@ BATCH_SIZE = 400
 HIDDEN_LAYERS = (30,)
 ACTIVATION_FUNCTION = 'norm:std+tanh'
 OPTIMIZE = 'hf' # hf or sgd
-WEIGHT_L2 = 1
+WEIGHT_L2 = 1.2
 
