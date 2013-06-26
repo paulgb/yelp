@@ -4,7 +4,7 @@ DATA_ZIP_FILE = 'data/yelp_training_set.zip'
 TRAINING_SET_FILE = 'yelp_training_set/yelp_training_set_review.json'
 
 # Data sampling
-SAMPLE_SIZE = 10000
+SAMPLE_SIZE = None
 
 # Cross-validation configuration
 CV_SPLITS = 3
@@ -18,7 +18,8 @@ USE_SCALE = False
 BATCH_SIZE = 400
 
 # Model configuration
-HIDDEN_LAYERS = (70,)
+HIDDEN_LAYERS = (30,)
 ACTIVATION_FUNCTION = 'norm:std+tanh'
-OPTIMIZE = 'sgd'
+OPTIMIZE = 'hf' # hf or sgd
+WEIGHT_L2 = 1
 

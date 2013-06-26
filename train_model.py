@@ -21,7 +21,9 @@ def train_and_test(train, test):
     test_features = cache(pipeline.transform)(test)
     test_targets = cache(pipeline.transform_targets)(test)
 
-    model = NeuralNetModel(config.HIDDEN_LAYERS, config.BATCH_SIZE, config.ACTIVATION_FUNCTION, config.OPTIMIZE)
+    model = NeuralNetModel(config.HIDDEN_LAYERS,
+            config.BATCH_SIZE, config.ACTIVATION_FUNCTION, config.OPTIMIZE,
+            config.WEIGHT_L2)
     model = cache(model.train)(features, targets, test_features, test_targets)
 
     predictions = cache(model.predict)(test_features)

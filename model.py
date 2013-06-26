@@ -7,11 +7,12 @@ from numpy import matrix
 cli.enable_default_logging()
 
 class NeuralNetModel:
-    def __init__(self, hidden_layers, batch_size, activation, optimize):
+    def __init__(self, hidden_layers, batch_size, activation, optimize, weight_l2):
         self.hidden_layers = hidden_layers
         self.batch_size = batch_size
         self.activation = activation
         self.optimize = optimize
+        self.weight_l2 = weight_l2
         self.network = None
 
     def train(self, features, targets, test_features, test_targets):
@@ -23,7 +24,8 @@ class NeuralNetModel:
                 layers=layers,
                 batch_size=self.batch_size,
                 activation=self.activation,
-                optimize=self.optimize)
+                optimize=self.optimize,
+                weight_l2=self.weight_l2)
 
         targets = matrix(targets).T
         test_targets = matrix(test_targets).T
