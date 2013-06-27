@@ -2,9 +2,12 @@
 # Data file configuration
 DATA_ZIP_FILE = 'data/yelp_training_set.zip'
 TRAINING_SET_FILE = 'yelp_training_set/yelp_training_set_review.json'
+VAL_ZIP_FILE = 'data/yelp_test_set.zip'
+VAL_SET_FILE = 'yelp_test_set/yelp_test_set_review.json'
+OUTPUT_FILE = 'out.csv'
 
 # Data sampling
-SAMPLE_SIZE = None
+SAMPLE_SIZE = False
 
 # Cross-validation configuration
 CV_SPLITS = 3

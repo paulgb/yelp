@@ -1,4 +1,6 @@
 
+from math import ceil
+
 from random import shuffle
 
 from mem import cache
@@ -19,4 +21,18 @@ def split(table, nsplits):
         splits.append((table.irow(training_set), table.irow(test_set)))
 
     return splits
+
+@cache
+def partition(table, frac):
+    ln = table.shape[0]
+    st = range(0, ln)
+    shuffle(st)
+
+    split_size = int(ceil(ln * (1 - frac)))
+
+    training_set = st[:split_size]
+    test_set = st[split_size:]
+
+    return table.irow(training_set), table.irow(test_set)
+
 

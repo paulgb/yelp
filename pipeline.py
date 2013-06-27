@@ -37,21 +37,22 @@ class Pipeline:
         
 
     def transform(self, features):
-        stemmed_text = stem(features.text)
+        #stemmed_text = stem(features.text)
 
-        text_features = self.tfidf.transform(stemmed_text)
-        text_features = text_features.toarray()
+        #text_features = self.tfidf.transform(stemmed_text)
+        #text_features = text_features.toarray()
 
-        text_features_pca = self.pca.transform(text_features)
+        #text_features_pca = self.pca.transform(text_features)
 
         avg_user = self.avg_user.transform(features.user_id)
 
-        return hstack((text_features_pca, avg_user))
+        #return hstack((text_features_pca, avg_user))
+        return avg_user
 
 
     def transform_targets(self, table):
         votes = log(table.votes_useful + 1)
-        return votes * self.scale
+        return votes
 
 
     def transform_predictions(self, predictions):
