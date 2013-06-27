@@ -18,7 +18,7 @@ USE_SCALE = False
 BATCH_SIZE = 400
 
 # Model configuration
-HIDDEN_LAYERS = (30,)
+HIDDEN_LAYERS = (60,)
 ACTIVATION_FUNCTION = 'norm:std+tanh'
 OPTIMIZE = 'hf' # hf or sgd
 WEIGHT_L2 = 1.2
